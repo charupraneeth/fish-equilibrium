@@ -16,7 +16,10 @@ function getStateWithCalculatedProfit(gameState) {
       gameState.scores[gameState.day][id].chosenFish
     );
 
-    const profit = profitMap[chosenFishKey][numberOfFishChosen - 1];
+    const profit =
+      gameState.day == 7 || gameState.day == 8
+        ? profitMap[chosenFishKey][numberOfFishChosen - 1] * 2
+        : profitMap[chosenFishKey][numberOfFishChosen - 1];
     gameState.scores[gameState.day][id].profit = profit;
 
     if (gameState.day - 1) {
@@ -30,9 +33,15 @@ function getStateWithCalculatedProfit(gameState) {
 
 function findWinner(gameState) {
   // day 8
-  const winner = Object.keys(gameState.scores[gameState.day]).sort(
-    (a, b) => +a.totalProfit - +b.totalProfit
-  )[0];
+  let largestNumber = 0;
+  let winner;
+  Object.keys(gameState.scores[gameState.day]).forEach((id) => {
+    if (gameState.scores[gameState.day][id].totalProfit > largestNumber) {
+      largestNumber = gameState.scores[gameState.day][id].totalProfit;
+      winner = id;
+    }
+  });
+
   return winner;
 }
 

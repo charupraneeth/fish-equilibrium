@@ -1,7 +1,14 @@
 <template>
   <div>
     <h2>Chat(only on 3rd and 6th day)</h2>
-    <div class="message-container my-2 py-5">
+    <div
+      class="
+        message-container
+        my-2
+        pb-5
+        has-background-grey-light has-text-light
+      "
+    >
       <div v-for="message in messages" :key="message.text">
         <p v-if="message.type == 'regular'">
           <b>{{ message.from }}</b> : {{ message.text }}

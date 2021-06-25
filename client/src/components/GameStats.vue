@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <h4>Total</h4>
+    <span>Total</span>
     <div
       class="is-flex is-justify-content-space-around"
       v-if="state.scores[state.day - 1]"

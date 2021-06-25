@@ -13,7 +13,7 @@
           :socket="socket"
           v-if="showOptions && isGameStarted"
         />
-        <div v-else>waiting for others ...</div>
+        <div v-if="!showOptions && !isGameEnded">waiting for others ...</div>
       </div>
     </div>
     <chat
@@ -41,6 +41,7 @@ export default {
   },
   props: ["socket", "roomCode"],
   setup(props) {
+    const isGameEnded = ref(false);
     const isGameStarted = ref(false);
     const prevDay = ref(0);
     const messages = ref([]);
@@ -67,6 +68,8 @@ export default {
 
       // on game state update
       props.socket.on("gameStateUpdate", (gameState) => {
+        window.scrollTo(0, document.body.scrollHeight);
+
         console.log(gameState);
         state.day = gameState.day;
         state.userData = gameState.userData;
@@ -77,6 +80,7 @@ export default {
       });
 
       props.socket.on("gameOver", (winner) => {
+        isGameEnded.value = true;
         console.log(winner);
         alert(`${winner.username} won the game`);
       });
@@ -98,6 +102,7 @@ export default {
       state,
       getUserNames,
       showOptions,
+      isGameEnded,
     };
   },
 };

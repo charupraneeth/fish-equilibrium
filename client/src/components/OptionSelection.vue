@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h3>Choose number of fishes to fish for the day</h3>
+  </div>
+  <div>
     <button @click="handleFishChoose(1)" class="button is-info m-3">one</button
     ><button @click="handleFishChoose(2)" class="button is-info m-3">
       two
