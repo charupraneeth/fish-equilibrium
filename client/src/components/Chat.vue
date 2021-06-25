@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Chat(only on 3rd and 6th day)</h2>
     <div class="message-container my-2 py-5">
       <div v-for="message in messages" :key="message.text">
         <p v-if="message.type == 'regular'">
@@ -13,7 +14,7 @@
         </p>
       </div>
     </div>
-    <form @submit.prevent="handleMessage">
+    <form @submit.prevent="handleMessage" v-if="!disabled">
       <div>
         <div class="field">
           <!-- <label class="label">Name</label> -->
@@ -40,7 +41,7 @@
 <script>
 import { ref } from "@vue/reactivity";
 export default {
-  props: ["messages", "socket"],
+  props: ["messages", "socket", "disabled"],
   setup(props) {
     const messageInput = ref("");
     function handleMessage() {
