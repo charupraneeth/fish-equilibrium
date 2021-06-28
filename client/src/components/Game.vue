@@ -34,7 +34,7 @@ import {
 import Chat from "./Chat.vue";
 import GameStats from "./GameStats";
 import OptionSelection from "./OptionSelection";
-import showOptions from "../store/showOptions";
+
 // import { ref } from "vue";
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
   },
   props: ["roomCode"],
   setup() {
-    const { username, socket } = toRefs(globalState);
+    const { username, socket, showOptions } = toRefs(globalState);
 
     const isGameEnded = ref(false);
     const isGameStarted = ref(false);
