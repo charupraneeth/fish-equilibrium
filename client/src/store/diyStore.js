@@ -1,4 +1,8 @@
-import { ref } from "vue";
+import { reactive } from "vue";
 
-const username = ref("");
-export default username;
+const globalState = reactive({
+  username: "",
+  socket: {},
+});
+
+export default globalState;

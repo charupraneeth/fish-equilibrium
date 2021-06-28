@@ -12,11 +12,14 @@
 
 <script>
 import showOptions from "../store/showOptions";
+import globalState from "../store/diyStore";
+import { toRefs } from "@vue/reactivity";
 export default {
-  props: ["socket"],
-  setup(props) {
+  setup() {
+    const { socket } = toRefs(globalState);
+
     function handleFishChoose(fishChoose) {
-      props.socket.emit("chooseFish", fishChoose);
+      socket.value.emit("chooseFish", fishChoose);
       showOptions.value = false;
     }
     return {

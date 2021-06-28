@@ -26,7 +26,7 @@
     </div>
     <div v-else>
       <div v-if="joined">
-        <game :socket="socket" :roomCode="roomCode" />
+        <game :roomCode="roomCode" />
       </div>
       <div v-else>
         <h3>Join existing room</h3>
@@ -64,19 +64,19 @@
 
 <script>
 // @ is an alias to /src
-import username from "../store/diyStore";
+import globalState from "../store/diyStore";
 import { io } from "socket.io-client";
 import Game from "../components/Game.vue";
-import { ref } from "@vue/reactivity";
+import { ref, toRefs } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 export default {
   components: {
     Game,
   },
   setup() {
+    const { username, socket } = toRefs(globalState);
     const usernameInput = ref("");
     const joined = ref(false);
-    const socket = ref({});
     const roomCode = ref("");
     const roomCodeInput = ref("");
 
@@ -118,7 +118,6 @@ export default {
       createRoom,
       joined,
       handleUserName,
-      socket,
       handleJoinRoom,
     };
   },

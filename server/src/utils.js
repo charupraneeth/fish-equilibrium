@@ -22,6 +22,7 @@ function getStateWithCalculatedProfit(gameState) {
         : profitMap[chosenFishKey][numberOfFishChosen - 1];
     gameState.scores[gameState.day][id].profit = profit;
 
+    // add the profits of previous day
     if (gameState.day - 1) {
       gameState.scores[gameState.day][id].totalProfit =
         gameState.scores[gameState.day - 1][id].totalProfit;

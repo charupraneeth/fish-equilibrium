@@ -22,7 +22,16 @@
     >
       <div v-for="id in Object.keys(state.scores[state.day - 1])" :key="id">
         <div>{{ getUserName(id) }}</div>
-        <div>
+        <div
+          v-if="
+            state.day == 8 &&
+            state.scores['8'] &&
+            Object.keys(state.scores[8]).length == 4
+          "
+        >
+          {{ state.scores[8][id].totalProfit }}
+        </div>
+        <div v-else>
           {{ state.scores[state.day - 1][id].totalProfit }}
         </div>
       </div>

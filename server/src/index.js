@@ -93,16 +93,18 @@ io.on("connection", async (socket) => {
       if (rooms[roomCode].day == 8) {
         const winnerID = findWinner(rooms[roomCode]);
         console.log(winnerID);
+        io.to(roomCode).emit("gameStateUpdate", rooms[roomCode]);
         io.to(roomCode).emit("gameOver", {
           userID: winnerID,
           username: users[winnerID].username,
         });
-        return;
+      } else {
+        // other regular days
+        rooms[roomCode].day += 1; // day over go to next day
+        if (rooms[roomCode].day == 3 || rooms[roomCode].day == 6)
+          rooms[roomCode].isChatDisabled = false; // enable chat on 3rd and 6th day
+        io.to(roomCode).emit("gameStateUpdate", rooms[roomCode]);
       }
-      rooms[roomCode].day += 1; // day over go to next day
-      if (rooms[roomCode].day == 3 || rooms[roomCode].day == 6)
-        rooms[roomCode].isChatDisabled = false; // enable chat on 3rd and 6th day
-      io.to(roomCode).emit("gameStateUpdate", rooms[roomCode]);
     }
   });
 

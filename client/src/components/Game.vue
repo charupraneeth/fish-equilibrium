@@ -9,10 +9,7 @@
       </div>
       <div v-if="isGameStarted">
         <game-stats :state="state" />
-        <option-selection
-          :socket="socket"
-          v-if="showOptions && isGameStarted"
-        />
+        <option-selection v-if="showOptions && isGameStarted" />
         <div v-if="!showOptions && !isGameEnded">waiting for others ...</div>
       </div>
     </div>
@@ -20,14 +17,20 @@
       :disabled="state.isChatDisabled"
       class="column is-one-fifth"
       :messages="messages"
-      :socket="socket"
     />
   </div>
 </template>
 
 <script>
-import username from "../store/diyStore";
-import { onMounted, ref, reactive, computed, watch } from "@vue/runtime-core";
+import globalState from "../store/diyStore";
+import {
+  onMounted,
+  ref,
+  reactive,
+  computed,
+  watch,
+  toRefs,
+} from "@vue/runtime-core";
 import Chat from "./Chat.vue";
 import GameStats from "./GameStats";
 import OptionSelection from "./OptionSelection";
@@ -39,8 +42,10 @@ export default {
     GameStats,
     OptionSelection,
   },
-  props: ["socket", "roomCode"],
-  setup(props) {
+  props: ["roomCode"],
+  setup() {
+    const { username, socket } = toRefs(globalState);
+
     const isGameEnded = ref(false);
     const isGameStarted = ref(false);
     const prevDay = ref(0);
@@ -60,14 +65,14 @@ export default {
 
     onMounted(() => {
       // on new message
-      props.socket.on("message", (message) => {
+      socket.value.on("message", (message) => {
         messages.value.push(message);
         const con = document.querySelector(".message-container");
         con.scrollTop = con.scrollHeight - con.clientHeight;
       });
 
       // on game state update
-      props.socket.on("gameStateUpdate", (gameState) => {
+      socket.value.on("gameStateUpdate", (gameState) => {
         window.scrollTo(0, document.body.scrollHeight);
 
         console.log(gameState);
@@ -79,7 +84,7 @@ export default {
         else isGameStarted.value = false;
       });
 
-      props.socket.on("gameOver", (winner) => {
+      socket.value.on("gameOver", (winner) => {
         isGameEnded.value = true;
         console.log(winner);
         alert(`${winner.username} won the game`);

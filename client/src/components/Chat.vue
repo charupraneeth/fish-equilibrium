@@ -46,14 +46,18 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { ref, toRefs } from "@vue/reactivity";
+import globalState from "../store/diyStore";
+
 export default {
-  props: ["messages", "socket", "disabled"],
-  setup(props) {
+  props: ["messages", "disabled"],
+  setup() {
+    const { socket } = toRefs(globalState);
+
     const messageInput = ref("");
     function handleMessage() {
       if (!messageInput.value || !messageInput.value.trim()) return;
-      props.socket.emit("sendMessage", messageInput.value);
+      socket.emit("sendMessage", messageInput.value);
       messageInput.value = "";
     }
 
