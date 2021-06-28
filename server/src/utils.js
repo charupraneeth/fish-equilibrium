@@ -3,7 +3,7 @@ const profitMap = {
   "2,2,2,1": [-25, 25],
   "2,2,1,1": [-12.5, 50],
   "2,1,1,1": [0, 75],
-  "1,1,1,1": [25, 25, 25, 25],
+  "1,1,1,1": [25, null],
 };
 
 function getStateWithCalculatedProfit(gameState) {
