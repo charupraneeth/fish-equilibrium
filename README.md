@@ -1,3 +1,9 @@
+
+# Fish equilibrium
+
+A demo game based on Nash equilibrium
+
+
 ## Run Locally
 
 Clone the project
